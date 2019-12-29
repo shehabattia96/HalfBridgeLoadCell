@@ -15,9 +15,10 @@
  * 2. sensor value at one or more specified voltages
  * the event listeners should call a callback
  */
-#include <Arduino.h>
+#include "Arduino.h"
 #include <vector>
 #include <cmath>
+#include <HX711.h>
 
 #ifndef HalfBridgeLoadCell_h
 #define HalfBridgeLoadCell_h
@@ -33,7 +34,6 @@ struct onValueListener
     onValueListener(void (*callback)(float), float* valueToListen, float* errorThreshold) : callback(callback), valueToListen(valueToListen), errorThreshold(errorThreshold) {}  
 };
 
-typedef HX711;
 class HalfBridgeLoadCell {
     private:
         HX711* loadCell; // pointer to the HX711 instance
@@ -42,29 +42,6 @@ class HalfBridgeLoadCell {
         float lastSensorValue;
         float lastError;
         float currentSensorValue;
-
-        /**
-         * @brief Calculates the absolute difference between to floats
-         * 
-         * @param value1 
-         * @param value2 
-         */
-        void calculateError(float* value1, float* value2) {
-            lastError = std::abs(*value1 - *value2);
-        }
-        /**
-         * @brief if the result from calculateError is small enough (iow smaller than the threshold), we don't trip any alarms.
-         * 
-         * @param value1 
-         * @param value2 
-         * @param errorThreshold 
-         * @return true - if there's negligible error
-         * @return false - if change is significant
-         */
-        bool withinErrorThreshold(float* value1, float* value2, float* errorThreshold) {
-            calculateError(value1, value2);
-            return lastError < *errorThreshold;
-        };
 
         // vectors holding all the subscribed listeners
         std::vector<onValueListener> onValueListenerArray;
@@ -98,6 +75,29 @@ class HalfBridgeLoadCell {
         ~ HalfBridgeLoadCell();
         HalfBridgeLoadCell();
         HalfBridgeLoadCell(HX711* loadCell, int dataPin, int sckPin);
+
+        /**
+         * @brief Calculates the absolute difference between to floats
+         * 
+         * @param value1 
+         * @param value2 
+         */
+        void calculateError(float* value1, float* value2) {
+            lastError = std::abs(*value1 - *value2);
+        }
+        /**
+         * @brief if the result from calculateError is small enough (iow smaller than the threshold), we don't trip any alarms.
+         * 
+         * @param value1 
+         * @param value2 
+         * @param errorThreshold 
+         * @return true - if there's negligible error
+         * @return false - if change is significant
+         */
+        bool withinErrorThreshold(float* value1, float* value2, float* errorThreshold) {
+            calculateError(value1, value2);
+            return lastError < *errorThreshold;
+        };
 
         float* read();
 

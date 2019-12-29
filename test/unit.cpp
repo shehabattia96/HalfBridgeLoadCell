@@ -5,7 +5,7 @@
 #include "catch.hpp"
 
 float calculateError(float* value1, float* value2) {
-    return std::abs(*value1 - *value2);
+    return std::abs((*value1 - *value2));
 }
 
 bool withinErrorThreshold(float* value1, float* value2, float* errorThreshold) {
