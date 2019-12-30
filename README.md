@@ -12,10 +12,25 @@ the HX711 is a 24-bit ADC with a gain amplifier (32, 64, 128) that is commonly u
  - arduino library [https://github.com/bogde/HX711](https://github.com/bogde/HX711)
 
 ### using this library
-declare an hx711 instance and pass it to HalfBridgeLoadCell:
+declare an hx711 instance and pass it to HalfBridgeLoadCell.
+using setOnValueListener will run the callback whenever the read value is within errorThreshold
+be careful when creating too many listener events on an Arduino, since it will take up a lot of clock cycles to loop through all of them
     #include <HX711.h>
     HX711 hx711;
     loadcell = HalfBridgeLoadCell(&hx711, dataPin, sckPin);
+    loadcell.read();
+
+    // to create an event listener, pass references to callback, valueToListen, errorThreshold
+    void callback(float tiggerValue) {
+        // do something
+    }
+    float valueToListen = 10.f;
+    float errorThreshold = 1.f;
+    loadcell.setOnValueListener(&callback, &valueToListen, &errorThreshold);
+
+### future enhancements
+* ability to delete listeners
+* protothreading for listeners
 
 ### how to wire this sensor
 HX711 usually has up to 10 pins

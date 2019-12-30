@@ -1,0 +1,10 @@
+{
+    "name": "HalfBridgeLoadCell",
+    "version": "0.1.0",
+    "build": {
+        "flags": [
+            "-I lib",
+            "-I lib/HX711/src"
+        ]
+    }
+}
