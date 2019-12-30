@@ -36,6 +36,10 @@ float* HalfBridgeLoadCell::read() {
 void HalfBridgeLoadCell::setOnValueListener(void (*callback)(float), float* valueToListen) {
 	setOnValueListener(callback, valueToListen, 0);
 };
+template <typename T>
+void HalfBridgeLoadCell::setOnValueListener(void (T::*callback)(float), float* valueToListen) {
+	setOnValueListener(callback, valueToListen, 0);
+};
 /**
  * @brief creates a new instance of the onValueListener struct, then adds it to onValueListenerArray
  * OnValueEvent is triggered when abs(currentSensorValue - valueToListen) > errorThreshold
@@ -48,6 +52,11 @@ void HalfBridgeLoadCell::setOnValueListener(void (*callback)(float), float* valu
 	onValueListener vl = onValueListener(callback, valueToListen, errorThreshold);
 	onValueListenerArray.push_back(vl);
 };
+template <typename T>
+void HalfBridgeLoadCell::setOnValueListener(void (T::*callback)(float), float* valueToListen, float* errorThreshold) {
+	onValueListener vl = onValueListener(callback, valueToListen, errorThreshold);
+	onValueListenerArray.push_back(vl);
+};
 /**
  * @brief creates a new instance of the onValueListener struct, then adds it to onErrorListenerArray
  * OnErrorEvent is triggered when abs(currentSensorValue - lastSensorValue) > errorThreshold
@@ -56,6 +65,11 @@ void HalfBridgeLoadCell::setOnValueListener(void (*callback)(float), float* valu
  * @param errorThreshold - a tolerable error magnitude
  */
 void HalfBridgeLoadCell::setOnErrorListener(void (*callback)(float), float* errorThreshold) {
+	onValueListener vl = onValueListener(callback, errorThreshold);
+	onErrorListenerArray.push_back(vl);
+};
+template <typename T>
+void HalfBridgeLoadCell::setOnErrorListener(void (T::*callback)(float), float* errorThreshold) {
 	onValueListener vl = onValueListener(callback, errorThreshold);
 	onErrorListenerArray.push_back(vl);
 };

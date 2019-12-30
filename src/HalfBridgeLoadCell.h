@@ -104,6 +104,12 @@ class HalfBridgeLoadCell {
         void setOnValueListener(void (*callback)(float), float* valueToListen);
         void setOnValueListener(void (*callback)(float), float* valueToListen, float* errorThreshold);
         void setOnErrorListener(void (*callback)(float), float* errorThreshold);
+        template <typename T>
+        void setOnValueListener(void (T::*callback)(float), float* valueToListen);
+        template <typename T>
+        void setOnValueListener(void (T::*callback)(float), float* valueToListen, float* errorThreshold);
+        template <typename T>
+        void setOnErrorListener(void (T::*callback)(float), float* errorThreshold);
 };
 
 #endif // !HalfBridgeLoadCell_h
