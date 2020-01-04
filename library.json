@@ -1,10 +1,14 @@
 {
     "name": "HalfBridgeLoadCell",
     "version": "0.1.0",
-    "build": {
-        "flags": [
-            "-I lib",
-            "-I lib/HX711/src"
-        ]
-    }
+    "exclude": "test",
+    "examples": "examples/*/*.ino",
+    "frameworks": "arduino",
+    "platforms": [
+        "atmelavr",
+        "espressif8266",
+        "espressif32",
+        "atmelsam",
+        "ststm32"
+    ]
 }

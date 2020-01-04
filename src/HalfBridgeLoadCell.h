@@ -23,6 +23,7 @@
 #ifndef HalfBridgeLoadCell_h
 #define HalfBridgeLoadCell_h
 
+
 // struct for our event listener
 struct onValueListener
 {
@@ -72,8 +73,8 @@ class HalfBridgeLoadCell {
             }
         }
     public:
-        ~ HalfBridgeLoadCell();
-        HalfBridgeLoadCell();
+        ~ HalfBridgeLoadCell() {};
+        HalfBridgeLoadCell() {};
         HalfBridgeLoadCell(HX711* loadCell, int dataPin, int sckPin);
 
         /**
@@ -108,7 +109,7 @@ class HalfBridgeLoadCell {
         void setOnValueListener(void (T::*callback)(float), float* valueToListen);
         template <typename T>
         void setOnValueListener(void (T::*callback)(float), float* valueToListen, float* errorThreshold);
-        template <typename T>
+        template <class T>
         void setOnErrorListener(void (T::*callback)(float), float* errorThreshold);
 };
 

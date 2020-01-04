@@ -68,7 +68,7 @@ void HalfBridgeLoadCell::setOnErrorListener(void (*callback)(float), float* erro
 	onValueListener vl = onValueListener(callback, errorThreshold);
 	onErrorListenerArray.push_back(vl);
 };
-template <typename T>
+template <class T>
 void HalfBridgeLoadCell::setOnErrorListener(void (T::*callback)(float), float* errorThreshold) {
 	onValueListener vl = onValueListener(callback, errorThreshold);
 	onErrorListenerArray.push_back(vl);

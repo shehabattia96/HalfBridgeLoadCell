@@ -1,7 +1,10 @@
 #include <Arduino.h>
-
+#include <HalfBridgeLoadCell.h>
+#include <HX711.h>
+HX711 hx711;
 void setup() {
-  // put your setup code here, to run once:
+    HalfBridgeLoadCell loadcell = HalfBridgeLoadCell(&hx711, 1, 2);
+    loadcell.read();
 }
 
 void loop() {
